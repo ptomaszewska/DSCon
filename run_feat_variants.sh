@@ -34,7 +34,7 @@ do
                                 features_path="${features_path}_gray"
                             fi
 
-                            sbatch run_single_feat.sh  ${patches_path} ${raw_data_path} "${patches_path}/process_list_autogen_modified.csv" ${features_path} ${feature_extractor} ${swin_model_name} ${is_gray} 
+                            sbatch ./run_single/run_single_feat.sh  ${patches_path} ${raw_data_path} "${patches_path}/process_list_autogen_modified.csv" ${features_path} ${feature_extractor} ${swin_model_name} ${is_gray} 
                          done
 
                 else
@@ -47,7 +47,7 @@ do
                                     features_path="${features_path}_gray"
                             fi
 
-                            sbatch run_single_feat.sh  ${patches_path} ${raw_data_path} "${patches_path}/process_list_autogen_modified.csv" ${features_path} ${feature_extractor} "None" ${is_gray} 
+                            sbatch ./run_single/run_single_feat.sh  ${patches_path} ${raw_data_path} "${patches_path}/process_list_autogen_modified.csv" ${features_path} ${feature_extractor} "None" ${is_gray} 
                  fi 
           done   
     done

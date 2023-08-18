@@ -57,7 +57,7 @@ do
                               exp_code="${exp_code}_weighted"           
                           fi
                        
-                          sbatch run_single_main.sh ${dropout_rate} "10" "50" ${exp_code} ${features_path} ${bag_weight} ${weighted} ${is_gray} ${layer1_neurons} ${layer2_neurons} ${learning_rate} ${weight_decay} "sgd"
+                          sbatch ./run_single/run_single_main.sh ${dropout_rate} "10" "50" ${exp_code} ${features_path} ${bag_weight} ${weighted} ${is_gray} ${layer1_neurons} ${layer2_neurons} ${learning_rate} ${weight_decay} "sgd"
                       done
                  else
                        patch_size=224
@@ -76,12 +76,12 @@ do
                         if ${feature_extractor} == "resnetCLAM" ]; then
                             layer1_neurons=512
                             layer2_neurons=256
-                            sbatch run_single_main.sh ${dropout_rate} "10" "50" ${exp_code} ${features_path} ${bag_weight} ${weighted} ${is_gray} ${layer1_neurons} ${layer2_neurons} ${learning_rate_resnet} ${weight_decay_resnet} "adam"
+                            sbatch ./run_single/run_single_main.sh ${dropout_rate} "10" "50" ${exp_code} ${features_path} ${bag_weight} ${weighted} ${is_gray} ${layer1_neurons} ${layer2_neurons} ${learning_rate_resnet} ${weight_decay_resnet} "adam"
                         
                         else
                             layer1_neurons=512
                             layer2_neurons=128
-                            sbatch run_single_main.sh ${dropout_rate} "10" "50" ${exp_code} ${features_path} ${bag_weight} ${weighted} ${is_gray} ${layer1_neurons} ${layer2_neurons} ${learning_rate} ${weight_decay} "sgd"
+                            sbatch ./run_single/run_single_main.sh ${dropout_rate} "10" "50" ${exp_code} ${features_path} ${bag_weight} ${weighted} ${is_gray} ${layer1_neurons} ${layer2_neurons} ${learning_rate} ${weight_decay} "sgd"
                          fi 
                     fi
 

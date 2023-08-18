@@ -307,7 +307,7 @@ class Transformer(nn.Module):
         return cls_embeds
 
 
-class VisionTransformer1(nn.Module):
+class VisionTransformer(nn.Module):
     def __init__(
         self, model_type,
         img_size=224, num_classes=21843, vis=False

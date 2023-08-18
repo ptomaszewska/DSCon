@@ -18,7 +18,7 @@ do
         for k in "${ks[@]}"
         do
         
-        sbatch run_single_regression.sh ${m_type} ${m_size} ${l_type} ${fold_id} ${window_size} ${k}
+        sbatch ./run_single/run_single_regression.sh ${m_type} ${m_size} ${l_type} ${fold_id} ${window_size} ${k}
 	sleep 15
                 done
               done

@@ -19,69 +19,26 @@ import torchvision
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
 import timm
-
-from functools import partial
-
-import timm.models.vision_transformer
-
 import math
 from functools import partial, reduce
 from operator import mul
 
-from timm.models.vision_transformer import VisionTransformer, _cfg
 from timm.models.layers.helpers import to_2tuple
 from timm.models.layers import PatchEmbed
-
-from vit import VisionTransformer1
 
 torch.manual_seed(1)
 torch.cuda.manual_seed(1)
 np.random.seed(1)
 random.seed(1)
 
-class VisionTransformer(timm.models.vision_transformer.VisionTransformer):
-	""" Vision Transformer with support for global average pooling
-	"""
-	def __init__(self, global_pool=False, **kwargs):
-		super(VisionTransformer, self).__init__(**kwargs)
-
-		self.global_pool = global_pool
-		if self.global_pool:
-			norm_layer = kwargs['norm_layer']
-			embed_dim = kwargs['embed_dim']
-			self.fc_norm = norm_layer(embed_dim)
-
-			del self.norm  # remove the original norm
-
-	def forward_features(self, x):
-		B = x.shape[0]
-		x = self.patch_embed(x)
-		
-		cls_tokens = self.cls_token.expand(B, -1, -1)  # stole cls_tokens impl from Phil Wang, thanks
-		x = torch.cat((cls_tokens, x), dim=1)
-		x = x + self.pos_embed
-		x = self.pos_drop(x)
-
-
-		for blk in self.blocks:
-			x = blk(x)
-
-		if self.global_pool:
-			x = x[:, 1:, :].mean(dim=1)  # global pool without cls token
-			outcome = self.fc_norm(x)
-		else:
-			x = self.norm(x)
-			outcome = x[:, 0]
-			
-		return outcome
 
 
 def Swin_choice(model_type):
 	model_components=model_type.split('_')
 	if "v2" in model_components[0]:
-		from swin_transformerv2 import SwinTransformerV2 as SwinTransformer
+		from models.swin_transformerv2 import SwinTransformerV2 as SwinTransformer
 	else:
-		from swin_transformer import SwinTransformer 
+		from models.swin_transformer import SwinTransformer 
 
 	if "22k" in model_type:
 		model_type=model_type.replace("_22k","")
@@ -160,7 +117,8 @@ def load_ViT(args):
 		model.load_state_dict(state_dict, strict=False)
 
 	elif args.model_type=='vit':
-		model= VisionTransformer1(
+		from models.vit import VisionTransformer
+		model= VisionTransformer(
 			  "sup_vitb16_imagenet21k", 224, num_classes=-1, vis=False)
 		model.load_from(np.load("./pretrained_models/ViT-B_16.npz"))
 
